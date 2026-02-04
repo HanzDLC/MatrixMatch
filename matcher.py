@@ -7,14 +7,16 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 from matplotlib.figure import Figure
 
+import os
+
 # -----------------------------
 # DB CONFIG – keep in sync with app.py
 # -----------------------------
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "",
-    "database": "matrixmatch",
+    "host": os.getenv("DB_HOST", "localhost"),
+    "user": os.getenv("DB_USER", "root"),
+    "password": os.getenv("DB_PASSWORD", ""),
+    "database": os.getenv("DB_NAME", "matrixmatch"),
 }
 
 
@@ -316,10 +318,10 @@ def get_history_with_matches(history_id):
     """
     # --- Connect to DB ---
     conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="matrixmatch",
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", ""),
+        database=os.getenv("DB_NAME", "matrixmatch"),
     )
     cur = conn.cursor(dictionary=True)
 

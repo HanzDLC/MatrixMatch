@@ -14,17 +14,19 @@ import io
 import matcher
 import json
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import os
+
 # -----------------------------
 # Flask app setup
 # -----------------------------
 app = Flask(__name__)
-app.secret_key = "supersecretkey_change_me"  # TODO: change in production
+app.secret_key = os.getenv("SECRET_KEY", "supersecretkey_change_me")  # TODO: change in production
 
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "",          # as you specified
-    "database": "matrixmatch"
+    "host": os.getenv("DB_HOST", "localhost"),
+    "user": os.getenv("DB_USER", "root"),
+    "password": os.getenv("DB_PASSWORD", ""),          # as you specified
+    "database": os.getenv("DB_NAME", "matrixmatch")
 }
 
 
