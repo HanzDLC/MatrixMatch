@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}History #{{ history.history_id }} – MatrixMatch{% endblock %}
+
+{% block content %}
+<div class="page">
+    <div class="page__header">
+        <div>
+            <h1 class="page__title">History #{{ history.history_id }}</h1>
+            <p class="page__subtitle">
+                Comparison run details – Stage 1 matches and Stage 2 keyword vs abstract view.
+            </p>
+        </div>
+
+        <a href="{{ url_for('history') }}" class="btn btn-secondary">
+            ← Back to History
+        </a>
+    </div>
+
+    <div class="page__content history-detail">
+        <!-- Summary + Keywords -->
+        <div class="history-detail__grid">
+            <!-- Summary card -->
+            <section class="card">
+                <div class="card__header">
+                    <h2 class="card__title">Run Summary</h2>
+                    <p class="card__subtitle">
+                        Basic information about this comparison run.
+                    </p>
+                </div>
+                <div class="card__body">
+                    <dl class="meta-list">
+                        <div class="meta-list__row">
+                            <dt>History ID</dt>
+                            <dd>#{{ history.history_id }}</dd>
+                        </div>
+                        <div class="meta-list__row">
+                            <dt>Researcher</dt>
+                            <dd>{{ history.researcher_name }}</dd>
+                        </div>
+                        <div class="meta-list__row">
+                            <dt>Program Filter</dt>
+                            <dd>{{ history.academic_program_filter }}</dd>
+                        </div>
+                        <div class="meta-list__row">
+                            <dt>Threshold</dt>
+                            <dd>{{ (history.similarity_threshold * 100) | round(0) }}%</dd>
+                        </div>
+                        <div class="meta-list__row">
+                            <dt>Created At</dt>
+                            <dd>{{ history.created_at }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </section>
+
+            <!-- Keywords card -->
+            <section class="card">
+                <div class="card__header">
+                    <h2 class="card__title">Keywords</h2>
+                    <p class="card__subtitle">
+                        The set of keywords used for Stage 2 similarity analysis.
+                    </p>
+                </div>
+                <div class="card__body">
+                    {% if keywords and keywords|length > 0 %}
+                        <ul class="keyword-list">
+                            {% for kw in keywords %}
+                                <li class="keyword-chip">{{ kw }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="empty-state">
+                            No keywords were saved for this run.
+                        </p>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+
+        <!-- Stage 1 Matches -->
+        <section class="card">
+            <div class="card__header">
+                <div>
+                    <h2 class="card__title">Stage 1 Matches</h2>
+                    <p class="card__subtitle">
+                        Documents that passed the similarity threshold for the user abstract.
+                    </p>
+                </div>
+            </div>
+
+            {% if matches and matches|length > 0 %}
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Doc ID</th>
+                                <th>Title</th>
+                                <th style="width: 140px;">Program</th>
+                                <th style="width: 120px;">Similarity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for m in matches %}
+                                <tr>
+                                    <td>{{ m.document_id }}</td>
+                                    <td>{{ m.title }}</td>
+                                    <td>{{ m.program }}</td>
+                                    <td>{{ (m.similarity * 100) | round(2) }}%</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="empty-state">
+                    No Stage 1 matches were saved for this history entry.
+                </p>
+            {% endif %}
+        </section>
+
+        <!-- Stage 2 Heatmap (link to full-page table) -->
+        <section class="card">
+            <div class="card__header">
+                <div>
+                    <h2 class="card__title">Stage 2 Matrix</h2>
+                    <p class="card__subtitle">
+                        View the keyword × document similarity matrix in a dedicated full-page table.
+                    </p>
+                </div>
+            </div>
+            <div class="card__body heatmap-section">
+                {% if matches and matches|length > 0 and keywords and keywords|length > 0 %}
+                    <p class="mb-2">
+                        Click the button below to open the Stage 2 heatmap matrix in a new tab.
+                    </p>
+                    <a
+                        href="{{ url_for('history_heatmap', history_id=history.history_id) }}"
+                        target="_blank"
+                        class="btn btn-primary btn-sm"
+                    >
+                        View Heatmap Table
+                    </a>
+                {% else %}
+                    <p class="empty-state">
+                        Not enough data to build a matrix. Ensure there are both keywords and Stage 1 matches.
+                    </p>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

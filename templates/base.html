@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MatrixMatch{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Font (optional but clean) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+<div class="app-shell">
+    <!-- Topbar -->
+    <header class="topbar">
+        <div class="topbar__left">
+            <button class="icon-button topbar__menu-btn" id="sidebarToggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <span class="topbar__brand">MatrixMatch</span>
+        </div>
+        <div class="topbar__right">
+            {% if session and session.get('first_name') %}
+                <span class="topbar__user">
+                    {{ session.get('first_name') }} {{ session.get('last_name') }}
+                    <span class="topbar__role">({{ session.get('role') }})</span>
+                </span>
+                <a class="topbar__link" href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar__section">
+                <div class="sidebar__title">Navigation</div>
+                <a href="{{ url_for('dashboard') }}" class="sidebar__link">
+                    Dashboard
+                </a>
+                <a href="{{ url_for('comparison_new') }}" class="sidebar__link">
+                    Start New Comparison
+                </a>
+                <a href="{{ url_for('history') }}" class="sidebar__link">
+                    View History
+                </a>
+            </div>
+
+            {% if session and session.get('role') == 'Admin' %}
+                <div class="sidebar__section">
+                    <div class="sidebar__title">Admin</div>
+                    <a href="{{ url_for('manage_researchers') }}" class="sidebar__link">
+                        Manage Researchers
+                    </a>
+                </div>
+            {% endif %}
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

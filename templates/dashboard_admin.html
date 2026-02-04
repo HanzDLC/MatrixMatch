@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard – MatrixMatch{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1 class="page-title">Admin Dashboard</h1>
+    <p class="page-subtitle">
+        Overview of researcher activity and comparison runs.
+    </p>
+</section>
+
+<section class="grid grid-3">
+    <div class="card">
+        <div class="card-label">Total Researchers</div>
+        <div class="card-value">{{ stats.total_researchers or 0 }}</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Total Comparisons</div>
+        <div class="card-value">{{ stats.total_comparisons or 0 }}</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Last 7 Days Runs</div>
+        <div class="card-value">{{ stats.last_7_days_runs or 0 }}</div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2 class="section-title">Recent Comparison Runs</h2>
+        <a href="{{ url_for('history') }}" class="link">View all history →</a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Researcher</th>
+                <th>Program</th>
+                <th>Threshold</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+<tbody>
+    {% for row in recent_history %}
+    <tr>
+        <td>{{ row.history_id }}</td>
+        <td>{{ row.researcher_name }}</td>
+        <td>{{ row.academic_program_filter }}</td>
+        <td>{{ (row.similarity_threshold * 100)|round(0) }}%</td>
+        <td>{{ row.created_at }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

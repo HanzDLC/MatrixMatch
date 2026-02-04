@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Researcher Dashboard – MatrixMatch{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1 class="page-title">Welcome, {{ session.get('first_name') }}</h1>
+    <p class="page-subtitle">
+        Start a new comparison or revisit your previous runs.
+    </p>
+</section>
+
+<section class="grid grid-2">
+    <a href="{{ url_for('comparison_new') }}" class="card card-clickable">
+        <h2 class="card-title">Start New Comparison</h2>
+        <p class="card-text">
+            Enter your keywords and upload your abstract to compare against the database.
+        </p>
+    </a>
+
+    <a href="{{ url_for('history') }}" class="card card-clickable">
+        <h2 class="card-title">View History</h2>
+        <p class="card-text">
+            Browse your past comparisons, inspect Stage 1 results and Stage 2 matrices.
+        </p>
+    </a>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2 class="section-title">Recent Activity</h2>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Program</th>
+                <th>Threshold</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in recent_history %}
+                <tr>
+                    <td>#{{ row.history_id }}</td>
+                    <td>{{ row.academic_program_filter }}</td>
+                    <td>{{ (row.similarity_threshold * 100) | round(0) }}%</td>
+                    <td>{{ row.created_at }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="table-empty">No recent comparisons yet.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

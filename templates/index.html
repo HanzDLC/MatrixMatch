@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixMatch - Research Abstract Matcher</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">MatrixMatch</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Login</a>
+            <a href="#">About</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Research Abstract Matching Made Easy</h1>
+            <p>Compare your research concept against existing academic abstracts using NLP-powered similarity scoring.</p>
+            <button class="cta-btn">Get Started</button>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features">
+        <h2>What MatrixMatch Can Do</h2>
+
+        <div class="features-container">
+            <div class="feature-card">
+                <h3>Stage 1 Matching</h3>
+                <p>Compare your abstract against the database using cosine similarity from SentenceTransformers.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Stage 2 Analysis</h3>
+                <p>Generate keyword-vs-abstract similarity matrices with interactive heatmaps.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>History Tracking</h3>
+                <p>Automatically save and view past comparisons, including detailed matrix results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>MatrixMatch © 2025 — Research Comparison Tool</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}New Comparison – MatrixMatch{% endblock %}
+
+{% block extra_head %}
+    <!-- could add page-specific styles here if needed -->
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1 class="page-title">Start New Comparison</h1>
+    <p class="page-subtitle">
+        Provide your research keywords and abstract, then choose program and similarity threshold.
+    </p>
+</section>
+
+<section class="section">
+    <form class="form-grid" id="comparisonForm" method="post" action="{{ url_for('comparison_new') }}">
+        <!-- Keywords -->
+        <div class="form-block">
+            <label class="form-label">Keywords (min 5)</label>
+            <p class="form-help">
+                Type a keyword and press Enter to add it. You can remove keywords by clicking on them.
+            </p>
+            <div class="chip-input" id="keywordInputWrapper">
+                <div class="chip-list" id="keywordList"></div>
+                <input
+                    type="text"
+                    id="keywordInput"
+                    class="chip-input__field"
+                    placeholder="Type a keyword and press Enter"
+                    autocomplete="off"
+                >
+            </div>
+            <input type="hidden" name="keywords" id="keywordsHidden">
+            <div class="form-help" id="keywordCountText">0 keywords added.</div>
+        </div>
+
+        <!-- Abstract -->
+        <div class="form-block">
+            <label for="abstract" class="form-label">Abstract</label>
+            <textarea
+                id="abstract"
+                name="abstract"
+                class="form-textarea"
+                rows="10"
+                placeholder="Paste or type your abstract here..."
+                required
+            ></textarea>
+        </div>
+
+        <!-- Filters -->
+        <div class="form-block">
+            <label for="program_filter" class="form-label">Academic Program Filter</label>
+            <select id="program_filter" name="program_filter" class="form-input">
+                <option value="ALL">All Programs</option>
+                <option value="BSIT">BSIT</option>
+                <option value="BSCS">BSCS</option>
+                <option value="BSIS">BSIS</option>
+            </select>
+        </div>
+
+        <div class="form-block">
+            <label for="threshold" class="form-label">
+                Minimum Similarity Threshold
+                <span id="thresholdValue">60%</span>
+            </label>
+            <input
+                type="range"
+                id="threshold"
+                name="threshold"
+                min="60"
+                max="100"
+                step="5"
+                value="60"
+                class="range-input"
+            >
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Run Comparison
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/comparison.js') }}"></script>
+{% endblock %}

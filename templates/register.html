@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Register – MatrixMatch{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <h1 class="auth-title">Create a Researcher Account</h1>
+        <p class="auth-subtitle">
+            Register to start comparing your abstracts against existing works.
+        </p>
+
+        <form class="auth-form" method="post" action="{{ url_for('register') }}">
+            <div class="form-field">
+                <label for="first_name" class="form-label">First name</label>
+                <input
+                    id="first_name"
+                    name="first_name"
+                    type="text"
+                    class="form-input"
+                    placeholder="Jane"
+                    required
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="last_name" class="form-label">Last name</label>
+                <input
+                    id="last_name"
+                    name="last_name"
+                    type="text"
+                    class="form-input"
+                    placeholder="Doe"
+                    required
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    class="form-input"
+                    placeholder="you@example.com"
+                    required
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="password" class="form-label">Password</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="form-input"
+                    placeholder="••••••••"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+                Create account
+            </button>
+
+            <p class="auth-footer-text">
+                Already have an account?
+                <a href="#" class="link js-go-login">Sign in</a>
+
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}
